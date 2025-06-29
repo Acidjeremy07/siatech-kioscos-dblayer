@@ -10,15 +10,15 @@ provider:
 
 # --- Capas --------------------------------------------------------
 layers:
-  NodeDb:
+  NodeDbHelper:                    #  <-- nuevo nombre (único)
     path: node-layer
-    description: "Shared MongoDB client for Node Lambdas"
+    description: "Mongo client + /opt/db helper"
     compatibleRuntimes: [nodejs18.x]
     retain: true
 
-  PythonDb:
+  PythonDbHelper:
     path: python-layer
-    description: "Shared PyMongo client for Python Lambdas"
+    description: "PyMongo + /opt/db helper"
     compatibleRuntimes: [python3.11]
     retain: true
 
