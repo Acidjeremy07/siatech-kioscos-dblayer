@@ -1,0 +1,31 @@
+service: siatech-kioscos-dblayer
+frameworkVersion: "^3.40.0"
+
+# --- Provider obligatorio ---
+provider:
+  name: aws
+  runtime: nodejs18.x        # valor por defecto (las capas lo sobre-escriben)
+  region: us-east-2          # opcional; puedes omitir y pasar --region al deploy
+  stage: ${opt:stage, 'dev'} # stage por parámetro o dev
+  environment:
+    MONGODB_URI: ${ssm:/kiosco/${self:custom.stage}/mongoUri~true}
+
+# --- Capas --------------------------------------------------------
+layers:
+  NodeDb:
+    path: node-layer
+    description: "Shared MongoDB client for Node Lambdas"
+    compatibleRuntimes: [nodejs18.x]
+    retain: true
+
+  PythonDb:
+    path: python-layer
+    description: "Shared PyMongo client for Python Lambdas"
+    compatibleRuntimes: [python3.11]
+    retain: true
+
+# Empaquetar solo las carpetas de layer
+package:
+  patterns:
+    - node-layer/**
+    - python-layer/**
