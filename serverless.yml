@@ -7,8 +7,6 @@ provider:
   runtime: nodejs18.x        # valor por defecto (las capas lo sobre-escriben)
   region: us-east-2          # opcional; puedes omitir y pasar --region al deploy
   stage: ${opt:stage, 'dev'} # stage por parámetro o dev
-  environment:
-    MONGODB_URI: ${ssm:/kiosco/${self:custom.stage}/mongoUri~true}
 
 # --- Capas --------------------------------------------------------
 layers:
