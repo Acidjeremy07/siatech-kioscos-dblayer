@@ -1,0 +1,39 @@
+name: Deploy DB Layer
+
+on:
+  push:
+    branches: [main]        # o la rama que uses
+  workflow_dispatch:        # botón “Run workflow” en GitHub
+
+env:
+  REGION: us-east-2
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Checkout del repo
+      - uses: actions/checkout@v4
+
+      # 2) Runtimes necesarios para empaquetar la capa
+      - uses: actions/setup-node@v4
+        with: { node-version: 18 }
+
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+
+      # 3) Instala Serverless CLI v3 (sin prompt de licencia)
+      - run: npm i -g serverless@3
+
+      # 4) Configura credenciales AWS (ponlas en Settings → Secrets)
+      - uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region:            ${{ env.REGION }}
+
+      # 5) Despliega la capa
+      - name: Serverless deploy
+        run: |
+          npx serverless deploy --stage dev --region $REGION --verbose
