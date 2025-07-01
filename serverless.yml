@@ -10,7 +10,7 @@ provider:
 
 # --- Capas --------------------------------------------------------
 layers:
-  NodeDbHelper:                    #  <-- nuevo nombre (único)
+  NodeDbHelper: 
     path: node-layer
     description: "Mongo client + /opt/db helper"
     compatibleRuntimes: [nodejs18.x]

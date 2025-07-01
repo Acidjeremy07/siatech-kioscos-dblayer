@@ -2,7 +2,7 @@ name: Deploy DB Layer
 
 on:
   push:
-    branches: [main]        # o la rama que uses
+    branches: [main]        # despliega al hacer push a main
   workflow_dispatch:        # botón “Run workflow” en GitHub
 
 env:
